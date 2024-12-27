@@ -1,0 +1,160 @@
+/* Header Styles */
+.header {
+  background-color: #1a252f; /* Darker background for header */
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Slightly stronger shadow for depth */
+  position: relative;
+  z-index: 1;
+}
+
+.profile-image {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  margin-left: 10px;
+  margin-right: 5px;
+  border: 2px solid #ffffff; /* Adds a border to highlight the image */
+}
+.account-profile-names{
+  display: flex;
+  flex-direction: column;
+}
+.header-title {
+  margin: 0;
+  font-size: 24px;
+  font-family: 'Roboto', sans-serif;
+  color: #ecf0f1; /* Light text color for contrast */
+  font-weight: 700;
+  margin-right: 20px;
+  white-space: nowrap; /* Prevents text from wrapping */
+}
+
+.create-btn-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px; /* Adds spacing between elements */
+}
+
+.create-button {
+  padding: 7px 20px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: #3498db; /* Bright blue background for call-to-action */
+  color: #ffffff; /* White text for contrast */
+  transition: background-color 0.3s ease;
+}
+.account-profile-containe{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.create-button:hover {
+  background-color: #2980b9; /* Slightly darker blue on hover */
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.account-profile-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.user-welcome-text {
+  margin: 0;
+  font-size: 16px;
+  color: #bdc3c7; /* Subtle gray for user text */
+  font-family: 'Arial', sans-serif;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  cursor: pointer; /* Indicate interactivity */
+  gap: 5px; /* Adds spacing between text and image */
+}
+
+.user-info:hover .user-welcome-text {
+  color: #1abc9c; /* Changes to a teal color on hover */
+}
+
+/* Dropdown Styles */
+.dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 300px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 1000;
+}
+
+.user-info:hover .dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.dropdown li {
+  padding: 10px 15px;
+  font-size: 14px;
+  color: #2c3e50;
+  font-family: 'Arial', sans-serif;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown li:hover {
+  background-color: #f4f6f7;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .header {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 15px 20px;
+  }
+
+  .header-title {
+      font-size: 20px; /* Smaller title on mobile */
+      margin-bottom: 10px;
+  }
+
+  .user-info {
+      margin-top: 10px;
+  }
+
+  .create-button {
+      font-size: 14px;
+      padding: 8px 15px;
+  }
+
+  .dropdown {
+      width: 100%; /* Full width on mobile */
+      left: 0;
+  }
+}

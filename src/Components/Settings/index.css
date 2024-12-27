@@ -1,0 +1,132 @@
+/* Main layout of Users page */
+.users-page {
+  display: flex;
+}
+
+.users-main-content {
+  padding: 20px;
+  width: 100%;
+  margin-left: 20%;
+  transition: margin-left 0.3s ease;
+  box-sizing: border-box;
+}
+
+.users-main-content.collapsed {
+  margin-left: 70px;
+  width: calc(100% - 70px);
+  transition: margin-left 0.3s ease, width 0.3s ease;
+}
+
+/* Search input styling */
+.users-search {
+  margin-bottom: 30px;
+  margin-top: 20px;
+}
+
+.search-input {
+  align-self: flex-end;
+  padding: 10px;
+  font-size: 16px;
+  width: 20%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Table styling */
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.users-table th, .users-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.users-table th {
+  background-color: #f4f4f4;
+}
+
+.users-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Action buttons */
+.make-admin-btn {
+  padding: 8px 12px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+.make-admin-btn:hover {
+  background-color: #2980b9;
+}
+
+.inactive-btn {
+  padding: 8px 12px;
+  background-color: #bdc3c7;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: not-allowed;
+}
+/* Optional Styles for the Edit User Popup */
+.edit-user-form {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.edit-user-form input {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.edit-user-form button {
+  padding: 10px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+
+.edit-user-form button:hover {
+  background-color: #2980b9;
+}
+
+.edit-user-btn,
+.make-admin-btn {
+  margin-right: 10px;
+}
+
+.edit-user-btn {
+  background-color: #f39c12;
+  padding: 8px;
+  border-radius: 5px;
+  padding-right: 20px;
+  padding-left: 20px;
+  color: white;
+  border: none;
+  margin-left: 10px;
+}
+
+.make-admin-btn {
+  background-color: #3498db;
+  color: white;
+}
+
+.inactive-btn {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+}

@@ -1,0 +1,17 @@
+.dashboard-page {
+    display: flex;
+    width: 100%;
+  }
+  
+  .main-content {
+    padding: 20px;
+    width: 100%;
+    transition: margin-left 0.3s;
+    margin-left: 20%; /* Space for the expanded sidebar */
+  }
+  
+  /* When the sidebar is collapsed, reduce the margin-left for main content */
+  .dashboard-page.sidebar-collapsed .main-content {
+    margin-left: 70px; /* Adjust space for collapsed sidebar */
+  }
+  

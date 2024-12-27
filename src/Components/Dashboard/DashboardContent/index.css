@@ -1,0 +1,90 @@
+/* General Dashboard Content */
+.dashboard-content {
+  padding: 20px;
+  background-color: #f4f5f7;
+  font-family: 'Arial', sans-serif;
+}
+
+.section-title {
+  font-size: 1.8rem;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Issue Cards Container */
+.issues-cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+/* Issue Card Theme */
+.issue-card-theme {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.issue-card-theme:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Card Header */
+.card-header {
+  display: flex;
+  align-items: center;
+}
+
+.status-border {
+  width: 8px;
+  height: 100%;
+}
+
+.card-header-content {
+  padding: 10px 15px;
+}
+
+.issue-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+}
+
+.issue-subtitle {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin: 0;
+}
+
+/* Card Details */
+.card-details {
+  padding: 10px 15px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.card-details p {
+  margin: 5px 0;
+}
+
+/* Attachment Link */
+.card-attachment {
+  padding: 10px 15px;
+  background-color: #f8f9fa;
+  border-top: 1px solid #e0e0e0;
+}
+
+.card-attachment a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.card-attachment a:hover {
+  text-decoration: underline;
+}

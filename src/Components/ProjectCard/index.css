@@ -1,0 +1,69 @@
+/* General Styles for Project Card */
+.project-card {
+  background-color: #fff;
+  padding: 20px;
+  margin: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Header Styles */
+.project-card-header {
+  margin-bottom: 15px;
+}
+
+.project-card-title {
+  font-size: 20px;
+  margin: 0;
+  color: #333;
+}
+
+/* Body Styles */
+.project-card-body {
+  margin-bottom: 15px;
+}
+
+.project-card-detail {
+  font-size: 16px;
+  margin: 5px 0;
+  color: #555;
+}
+
+/* Actions Section */
+.project-card-actions {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.project-card-button {
+  padding: 10px 15px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+/* Edit Button */
+.project-card-button.edit-button {
+  background-color: #3498db;
+  color: white;
+}
+
+.project-card-button.edit-button:hover {
+  background-color: #2980b9;
+}
+
+/* Delete Button */
+.project-card-button.delete-button {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.project-card-button.delete-button:hover {
+  background-color: #c0392b;
+}

@@ -1,117 +1,139 @@
-/* Sidebar Container */
+/* Base Sidebar Styles */
 .sidebar-container {
-    width: 20%;
-    background-color: #2c3e50;
-    color: white;
-    height: 100vh;
-    position: fixed;
-    transition: width 0.3s;
-    overflow: hidden;
+  width: 20%;
+  background-color: #2c3e50;
+  color: white;
+  height: 100vh;
+  position: fixed;
+  transition: width 0.3s;
+  overflow: hidden;
+}
+
+.sidebar-collapsed {
+  width: 70px;
+}
+
+.sidebar-logo {
+  display: none;
+  height: 40px;
+  width: auto;
+}
+
+/* Sidebar Header */
+.sidebar-header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #1a252f;
+  border-bottom: 1px solid #34495e;
+}
+
+.sidebar-title {
+  font-size: 24px;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.sidebar-toggle-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* Sidebar Navigation */
+.sidebar-navigation {
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-menu-item {
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  font-size: 20px;
+}
+
+.sidebar-menu-item.active {
+  background-color: #34495e;
+}
+
+.sidebar-menu-link {
+  text-decoration: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+/* Sidebar Icons */
+.sidebar-icon {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.sidebar-collapsed .sidebar-icon {
+  margin-right: 0;
+}
+
+.sidebar-label {
+  display: inline-block;
+}
+
+.sidebar-collapsed .sidebar-label {
+  display: none;
+}
+
+/* Responsive Design */
+/* Tablet View */
+@media (max-width: 1024px) {
+  .sidebar-container {
+      width: 15%;
   }
-  
+
   .sidebar-collapsed {
-    width: 70px;
+      width: 60px;
   }
-  
-  /* Sidebar Header */
-  .sidebar-header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    background-color: #1a252f;
-    border-bottom: 1px solid #34495e;
-  }
-  
-  .sidebar-title {
-    font-size: 24px;
-    margin: 0;
-    white-space: nowrap;
-  }
-  
-  .sidebar-toggle-btn {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 20px;
-    cursor: pointer;
-  }
-  
-  /* Sidebar Navigation */
-  .sidebar-navigation {
-    margin: 0;
-    padding: 0;
-  }
-  
-  .sidebar-menu {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
+
   .sidebar-menu-item {
-    padding: 15px 20px;
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
-    font-size: 20px;
-  }
-  
-  .sidebar-menu-item.active {
-    background-color: #34495e;
-  }
-  
-  .sidebar-menu-link {
-    text-decoration: none;
-    color: white;
-    display: flex;
-    align-items: center;
-    width: 100%;
-  }
-  
-  /* Sidebar Icons */
-  .sidebar-icon {
-    margin-right: 10px;
-    font-size: 18px;
-  }
-  
-  .sidebar-collapsed .sidebar-icon {
-    margin-right: 0;
-  }
-  
-  .sidebar-label {
-    display: inline-block;
-  }
-  
-  .sidebar-collapsed .sidebar-label {
-    display: none;
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .sidebar-container {
-      width: 100%;
-      position: relative;
-    }
-  
-    .sidebar-collapsed {
-      width: 100%;
-    }
-  
-    .sidebar-header-container {
-      display: block;
-    }
-  
-    .sidebar-toggle-btn {
       font-size: 18px;
-    }
-  
-    .sidebar-menu-item {
-      justify-content: center;
-    }
-  
-    .sidebar-menu-link {
-      text-align: center;
-    }
   }
-  
+}
+
+/* Mobile View */
+@media (max-width: 768px) {
+  .sidebar-container {
+      width: 60px;
+  }
+
+  .sidebar-menu-item {
+      padding: 10px;
+      justify-content: center;
+  }
+
+  .sidebar-title {
+    display: none; /* Hide the title */
+  }
+
+  .sidebar-logo {
+    display: block; /* Show the logo */
+    margin: auto;
+  }
+
+  .sidebar-icon {
+      font-size: 24px;
+  }
+
+  .sidebar-label {
+      display: none;
+  }
+}

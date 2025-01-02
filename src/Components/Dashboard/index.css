@@ -1,17 +1,41 @@
 .dashboard-page {
-    display: flex;
-    width: 100%;
-  }
-  
+  display: flex;
+  width: 100%;
+}
+
+.main-content {
+  padding: 20px;
+  width: 100%;
+  transition: margin-left 0.3s;
+  margin-left: 20%; /* Space for the expanded sidebar */
+}
+
+/* When the sidebar is collapsed */
+.dashboard-page.sidebar-collapsed .main-content {
+  margin-left: 70px; /* Adjust space for collapsed sidebar */
+}
+
+/* Responsive Design */
+/* Tablet View */
+@media (max-width: 1024px) {
   .main-content {
-    padding: 20px;
-    width: 100%;
-    transition: margin-left 0.3s;
-    margin-left: 20%; /* Space for the expanded sidebar */
+    padding: 15px; /* Reduce padding for tablet screens */
+    margin-left: 15%; /* Adjust margin for the sidebar */
   }
-  
-  /* When the sidebar is collapsed, reduce the margin-left for main content */
+
   .dashboard-page.sidebar-collapsed .main-content {
-    margin-left: 70px; /* Adjust space for collapsed sidebar */
+    margin-left: 60px; /* Adjust space for collapsed sidebar on tablet */
   }
-  
+}
+
+/* Mobile View */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 10px; /* Reduce padding for smaller screens */
+    margin-left: 60px; /* Sidebar width on mobile */
+  }
+
+  .dashboard-page.sidebar-collapsed .main-content {
+    margin-left: 60px; /* Maintain same margin for collapsed sidebar */
+  }
+}

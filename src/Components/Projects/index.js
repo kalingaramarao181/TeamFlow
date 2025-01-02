@@ -13,7 +13,7 @@ const Projects = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [projectsPerPage] = useState(6);
+  const [projectsPerPage] = useState(5);
   const [searchTerm, setSearchTerm] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(null);
   const dropdownRef = useRef(null);

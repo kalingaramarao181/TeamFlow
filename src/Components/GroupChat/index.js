@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 import { useParams } from "react-router-dom";
 import "./index.css";
+import { baseUrl } from "../config";
 
 const Chatbox = () => {
   const { projectId } = useParams();
@@ -9,12 +11,13 @@ const Chatbox = () => {
   const [newMessage, setNewMessage] = useState("");
   const [loading, setLoading] = useState(true);
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const userId = Cookies.get("jwtToken"); // Fetch userId from cookies
 
   useEffect(() => {
     if (isChatOpen) {
       const fetchMessages = async () => {
         try {
-          const response = await axios.get(`/api/projects/${projectId}/chat`, {
+          const response = await axios.get(`${baseUrl}projects/${projectId}/chat`, {
             withCredentials: true,
           });
           setMessages(response.data.messages);
@@ -33,7 +36,7 @@ const Chatbox = () => {
 
     try {
       const response = await axios.post(
-        `/api/projects/${projectId}/chat`,
+        `${baseUrl}projects/${projectId}/chat`,
         { message: newMessage },
         { withCredentials: true }
       );
@@ -70,11 +73,7 @@ const Chatbox = () => {
               <div
                 key={msg.id}
                 className={`chat-message ${
-                  msg.sender_id ===
-                  JSON.parse(atob(document.cookie.split("token=")[1].split(".")[1]))
-                    .id
-                    ? "self"
-                    : ""
+                  msg.sender_id === parseInt(userId) ? "self" : ""
                 }`}
               >
                 <strong>{msg.sender_name}</strong>: {msg.message}

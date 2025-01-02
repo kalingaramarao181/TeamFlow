@@ -14,11 +14,20 @@ const Sidebar = ({ onToggleSidebar, isCollapsed }) => {
   return (
     <div className={`sidebar-container ${isCollapsed ? "sidebar-collapsed" : ""}`}>
       <div className="sidebar-header-container">
-        {!isCollapsed && <h3 className="sidebar-title">TeamFlow Manager</h3>}
-        <button className="sidebar-toggle-btn" onClick={onToggleSidebar}>
-          {isCollapsed ? "»" : "«"}
-        </button>
-      </div>
+  {!isCollapsed && (
+    <>
+      <h3 className="sidebar-title">TeamFlow Manager</h3>
+      <img
+        src="/logo_icon.png"
+        alt="Logo"
+        className="sidebar-logo"
+      />
+    </>
+  )}
+  <button className="sidebar-toggle-btn" onClick={onToggleSidebar}>
+    {isCollapsed ? "»" : "«"}
+  </button>
+</div>
       <nav className="sidebar-navigation">
         <ul className="sidebar-menu">
           <li className={`sidebar-menu-item ${location.pathname === "/dashboard" ? "active" : ""}`}>

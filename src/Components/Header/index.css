@@ -1,13 +1,23 @@
 /* Header Styles */
 .header {
-  background-color: #1a252f; /* Darker background for header */
+  background-color: #1a252f;
   padding: 15px 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Slightly stronger shadow for depth */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   position: relative;
   z-index: 1;
+}
+
+.header-title {
+  margin: 0;
+  font-size: 24px;
+  font-family: 'Roboto', sans-serif;
+  color: #ecf0f1;
+  font-weight: 700;
+  margin-right: 20px;
+  white-space: nowrap;
 }
 
 .profile-image {
@@ -15,28 +25,13 @@
   width: 40px;
   border-radius: 50%;
   margin-left: 10px;
-  margin-right: 5px;
-  border: 2px solid #ffffff; /* Adds a border to highlight the image */
-}
-.account-profile-names{
-  display: flex;
-  flex-direction: column;
-}
-.header-title {
-  margin: 0;
-  font-size: 24px;
-  font-family: 'Roboto', sans-serif;
-  color: #ecf0f1; /* Light text color for contrast */
-  font-weight: 700;
-  margin-right: 20px;
-  white-space: nowrap; /* Prevents text from wrapping */
+  border: 2px solid #ffffff;
 }
 
 .create-btn-container {
   display: flex;
-  flex-direction: row;
   align-items: center;
-  gap: 10px; /* Adds spacing between elements */
+  gap: 10px;
 }
 
 .create-button {
@@ -46,47 +41,35 @@
   border-radius: 5px;
   font-size: 16px;
   font-weight: 600;
-  background-color: #3498db; /* Bright blue background for call-to-action */
-  color: #ffffff; /* White text for contrast */
+  background-color: #3498db;
+  color: #ffffff;
   transition: background-color 0.3s ease;
-}
-.account-profile-containe{
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .create-button:hover {
-  background-color: #2980b9; /* Slightly darker blue on hover */
+  background-color: #2980b9;
 }
 
 .user-info {
   display: flex;
   align-items: center;
-  justify-content: center;
   position: relative;
-}
-.account-profile-container{
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
 }
 
 .user-welcome-text {
   margin: 0;
   font-size: 16px;
-  color: #bdc3c7; /* Subtle gray for user text */
+  color: #bdc3c7;
   font-family: 'Arial', sans-serif;
   font-weight: 500;
   display: flex;
   align-items: center;
-  cursor: pointer; /* Indicate interactivity */
-  gap: 5px; /* Adds spacing between text and image */
+  cursor: pointer;
+  gap: 5px;
 }
 
 .user-info:hover .user-welcome-text {
-  color: #1abc9c; /* Changes to a teal color on hover */
+  color: #1abc9c;
 }
 
 /* Dropdown Styles */
@@ -132,29 +115,74 @@
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+/* Tablet View */
+@media (max-width: 1024px) {
   .header {
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 15px 20px;
+    padding: 15px 20px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .header-title {
-      font-size: 20px; /* Smaller title on mobile */
-      margin-bottom: 10px;
-  }
-
-  .user-info {
-      margin-top: 10px;
+    font-size: 22px;
+    margin-right: 10px;
   }
 
   .create-button {
-      font-size: 14px;
-      padding: 8px 15px;
+    font-size: 15px;
+    padding: 8px 15px;
+  }
+
+  .user-info {
+    margin-top: 10px;
+    flex-direction: row;
   }
 
   .dropdown {
-      width: 100%; /* Full width on mobile */
-      left: 0;
+    width: 250px;
+    left: auto;
+  }
+}
+
+/* Mobile View */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px 20px;
+  }
+
+  .header-title {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  .create-btn-container {
+    width: 100%;
+    justify-content: space-between;
+    gap: 5px;
+  }
+
+  .create-button {
+    font-size: 14px;
+    padding: 8px 12px;
+    width: auto;
+  }
+
+  .user-info {
+    margin-top: 15px;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .profile-image {
+    height: 35px;
+    width: 35px;
+  }
+
+  .dropdown {
+    width: 100%;
+    left: 0;
   }
 }

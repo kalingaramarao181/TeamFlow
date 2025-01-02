@@ -38,7 +38,7 @@ const RegisterForm = () => {
     }
 
     // Validate email format (Gmail)
-    const emailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!userDetails.email) {
       formErrors.email = "Email is required.";
       isValid = false;

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Sidebar from "../Sidebar";
-import { FaPlus, FaFilter, FaEdit, FaTrash, FaCheck } from "react-icons/fa";
+import { FaPlus, FaEdit, FaTrash } from "react-icons/fa";
 import "./index.css";
 
 const TasksPage = () => {

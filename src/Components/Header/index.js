@@ -9,7 +9,7 @@ const Header = ({ openPopup, closePopup, isPopupOpen }) => {
   const navigate = useNavigate(); // Hook for navigation
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [user, setUser] = useState({
-    fullName: "Guest",
+    fullName: "Guest", 
     email: "",
   });
 

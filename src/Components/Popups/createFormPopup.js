@@ -3,7 +3,7 @@ import Popup from "reactjs-popup";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState, convertToRaw } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import draftToHtml from 'draftjs-to-html';
+import draftToHtml from "draftjs-to-html";
 import { baseUrl, baseUrlImg } from "../config.js";
 import "./index.css";
 import axios from "axios";
@@ -31,14 +31,14 @@ const CreateFormPopup = ({ isPopupOpen, closePopup, options }) => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const [loggedInUser, setLoggedInUser] = useState(null);
-  const [users, setUsers] = useState([]); 
+  const [users, setUsers] = useState([]);
 
   const onEditorStateChange = (state) => {
     setEditorState(state);
-  
+
     try {
       const contentState = state.getCurrentContent();
-  
+
       if (contentState.hasText()) {
         // Convert content to raw and HTML
         const rawHtml = draftToHtml(convertToRaw(contentState));
@@ -55,20 +55,20 @@ const CreateFormPopup = ({ isPopupOpen, closePopup, options }) => {
     // Fetch logged-in user data
     const fetchUserData = async () => {
       try {
-        const response = await axios.get('your-backend-api-url/user'); 
+        const response = await axios.get("your-backend-api-url/user");
         setLoggedInUser(response.data);
       } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error("Error fetching user data:", error);
       }
     };
 
-    // Fetch users data 
+    // Fetch users data
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(`${baseUrl}get-users`); 
+        const response = await axios.get(`${baseUrl}get-users`);
         setUsers(response.data);
       } catch (error) {
-        console.error('Error fetching users:', error);
+        console.error("Error fetching users:", error);
       }
     };
 
@@ -94,9 +94,11 @@ const CreateFormPopup = ({ isPopupOpen, closePopup, options }) => {
       }, 5000);
       return;
     }
-  
-    const assignee = users.find((user) => user.id === parseInt(formData.assignee));
-    
+
+    const assignee = users.find(
+      (user) => user.id === parseInt(formData.assignee)
+    );
+
     if (!assignee) {
       setErrorMessage("Valid assignee is required!");
       setErrorMessageVisible(true);
@@ -105,10 +107,11 @@ const CreateFormPopup = ({ isPopupOpen, closePopup, options }) => {
       }, 5000);
       return;
     }
-  
+
     const emailPayload = {
       assigneeEmail: assignee.email,
       assigneeName: assignee.full_name,
+      projectId: assignee.id,
       issueDetails: {
         summary: formData.summary,
         description: formData.description,
@@ -116,21 +119,24 @@ const CreateFormPopup = ({ isPopupOpen, closePopup, options }) => {
         // Add other necessary issue details here
       },
     };
-  
+
     try {
       // First, send the email to the assignee
-      const emailResponse = await axios.post(`${baseUrl}send-mail`, emailPayload);
+      const emailResponse = await axios.post(
+        `${baseUrl}send-mail`,
+        emailPayload
+      );
       if (emailResponse.data.success) {
         // If email was sent successfully, create the issue
         const payload = new FormData();
         for (let key in formData) {
           payload.append(key, formData[key]);
         }
-  
+
         await axios.post(`${baseUrl}issues`, payload, {
           headers: { "Content-Type": "multipart/form-data" },
         });
-  
+
         setSuccessMessageVisible(true);
         setTimeout(() => {
           setSuccessMessageVisible(false);
@@ -157,21 +163,19 @@ const CreateFormPopup = ({ isPopupOpen, closePopup, options }) => {
       }
     } catch (error) {
       console.error("Error:", error);
-  
+
       const errorResponse = error.response
         ? error.response.data
         : "An error occurred. Please try again.";
       setErrorMessage(errorResponse.message || errorResponse);
-  
+
       setErrorMessageVisible(true);
-  
+
       setTimeout(() => {
         setErrorMessageVisible(false);
       }, 5000);
     }
   };
-  
-  
 
   const handleAssigneeChange = (e) => {
     setFormData((prevData) => ({
@@ -189,11 +193,13 @@ const CreateFormPopup = ({ isPopupOpen, closePopup, options }) => {
       contentStyle={{ zIndex: 2, borderRadius: "12px", padding: "20px" }}
       overlayStyle={{ zIndex: 1, backgroundColor: "rgba(0, 0, 0, 0.6)" }}
     >
-      <div className="popup-content">
+      <div className="popup-contents">
         <h2>Create Issue</h2>
         <form>
           {/* Project */}
-          <label htmlFor="project">Project</label>
+          <label htmlFor="project">
+            Project <span className="required">*</span>
+          </label>
           <select
             id="project"
             name="project"
@@ -203,14 +209,15 @@ const CreateFormPopup = ({ isPopupOpen, closePopup, options }) => {
             <option value="">Select Project</option>
             {options.projects.map((option) => (
               <option key={option.value} value={option.value}>
-                <img className="label-img-logo" alt="Project Logo" src={`${baseUrlImg}uploads/${option.projectLogo}`}/>
                 {option.label}
               </option>
             ))}
           </select>
 
           {/* Issue Type */}
-          <label htmlFor="issueType">Issue Type</label>
+          <label htmlFor="issueType">
+            Issue Type <span className="required">*</span>
+          </label>
           <select
             id="issueType"
             name="issueType"
@@ -239,7 +246,9 @@ const CreateFormPopup = ({ isPopupOpen, closePopup, options }) => {
           </select>
 
           {/* Summary */}
-          <label htmlFor="summary">Summary</label>
+          <label htmlFor="summary">
+            Summary <span className="required">*</span>
+          </label>
           <input
             type="text"
             id="summary"
@@ -311,24 +320,30 @@ const CreateFormPopup = ({ isPopupOpen, closePopup, options }) => {
           </select>
 
           {/* Assignee */}
-          <label>Assignee</label>
+          <label>
+            Assignee <span className="required">*</span>
+          </label>
           <select
-        value={formData.assignee || ''}
-        onChange={handleAssigneeChange}
-      >
-        <option value="">Select Assignee</option>
-        {users.map((user) => (
-          <option key={user.id} value={user.id}>
-            {user.full_name} 
-          </option>
-        ))}
-      </select>
+            value={formData.assignee || ""}
+            onChange={handleAssigneeChange}
+          >
+            <option value="">Select Assignee</option>
+            {users.map((user) => (
+              <option key={user.id} value={user.id}>
+                {user.full_name}
+              </option>
+            ))}
+          </select>
 
-      {loggedInUser && !formData.assignee && (
-        <button onClick={() => setFormData({ ...formData, assignee: loggedInUser.id })}>
-          Assign to me
-        </button>
-      )}
+          {loggedInUser && !formData.assignee && (
+            <button
+              onClick={() =>
+                setFormData({ ...formData, assignee: loggedInUser.id })
+              }
+            >
+              Assign to me
+            </button>
+          )}
 
           {/* Attachment */}
           <div className="attachment-wrapper">

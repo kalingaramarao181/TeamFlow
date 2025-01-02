@@ -148,7 +148,7 @@ const CreateProjectFormPopup = ({ isPopupOpen, closePopup, options }) => {
       contentStyle={{ zIndex: 2, borderRadius: "12px", padding: "20px" }}
       overlayStyle={{ zIndex: 1, backgroundColor: "rgba(0, 0, 0, 0.6)" }}
     >
-      <div className="popup-content">
+      <div className="popup-contents">
         <h2>Create Project</h2>
         <form>
           {/* Name */}

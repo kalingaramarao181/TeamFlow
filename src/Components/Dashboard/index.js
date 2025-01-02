@@ -19,7 +19,7 @@ const Dashboard = () => {
       { value: "Epic", label: "Epic" },
       { value: "Bug", label: "Bug" },
     ],
-  });
+  }); 
 
   // Simulate backend data fetching
   useEffect(() => {

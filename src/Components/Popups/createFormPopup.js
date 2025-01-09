@@ -4,7 +4,9 @@ import { Editor } from "react-draft-wysiwyg";
 import { EditorState, convertToRaw } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import draftToHtml from "draftjs-to-html";
-import { baseUrl, baseUrlImg } from "../config.js";
+import { baseUrl } from "../config.js";
+import {jwtDecode} from 'jwt-decode';
+import Cookies from 'js-cookie';
 import "./index.css";
 import axios from "axios";
 
@@ -32,7 +34,10 @@ const CreateFormPopup = ({ isPopupOpen, closePopup, options }) => {
 
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [users, setUsers] = useState([]);
+  const [userRole, setUserRole] = useState(null); // To store user's role
 
+  console.log(userRole);
+  
   const onEditorStateChange = (state) => {
     setEditorState(state);
 
@@ -52,16 +57,20 @@ const CreateFormPopup = ({ isPopupOpen, closePopup, options }) => {
   };
 
   useEffect(() => {
-    // Fetch logged-in user data
+    // Fetch logged-in user data from the JWT token stored in cookies
     const fetchUserData = async () => {
       try {
-        const response = await axios.get("your-backend-api-url/user");
-        setLoggedInUser(response.data);
+        const token = Cookies.get("jwtToken"); // Get token from cookies
+        if (token) {
+          const decodedToken = jwtDecode(token); // Decode the JWT token
+          setLoggedInUser(decodedToken); // Store the user info
+          setUserRole(decodedToken.role); // Get the role from the decoded token
+        }
       } catch (error) {
-        console.error("Error fetching user data:", error);
+        console.error("Error decoding the token:", error);
       }
     };
-
+  
     // Fetch users data
     const fetchUsers = async () => {
       try {
@@ -71,7 +80,7 @@ const CreateFormPopup = ({ isPopupOpen, closePopup, options }) => {
         console.error("Error fetching users:", error);
       }
     };
-
+  
     fetchUserData();
     fetchUsers();
   }, []);
@@ -320,19 +329,25 @@ const CreateFormPopup = ({ isPopupOpen, closePopup, options }) => {
           </select>
 
           {/* Assignee */}
-          <label>
-            Assignee <span className="required">*</span>
-          </label>
+          <label htmlFor="assignee">Assignee</label>
           <select
-            value={formData.assignee || ""}
+            id="assignee"
+            name="assignee"
+            value={formData.assignee}
             onChange={handleAssigneeChange}
           >
             <option value="">Select Assignee</option>
-            {users.map((user) => (
-              <option key={user.id} value={user.id}>
-                {user.full_name}
+            {userRole === "user" ? (
+              <option key={loggedInUser.id} value={loggedInUser.id}>
+                {loggedInUser.full_name}
               </option>
-            ))}
+            ) : (
+              users.map((user) => (
+                <option key={user.id} value={user.id}>
+                  {user.full_name}
+                </option>
+              ))
+            )}
           </select>
 
           {loggedInUser && !formData.assignee && (

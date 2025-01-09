@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import {jwtDecode} from "jwt-decode"; // For decoding JWT
+import {jwtDecode} from "jwt-decode";
 import "./index.css";
 
 const Header = ({ openPopup, closePopup, isPopupOpen }) => {
@@ -9,11 +9,10 @@ const Header = ({ openPopup, closePopup, isPopupOpen }) => {
   const navigate = useNavigate(); // Hook for navigation
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [user, setUser] = useState({
-    fullName: "Guest", 
+    fullName: "Guest",
     email: "",
   });
 
-  // Function to capitalize the first letter of a string
   const capitalizeFirstLetter = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
@@ -66,7 +65,7 @@ const Header = ({ openPopup, closePopup, isPopupOpen }) => {
     );
   };
 
-  const authPath = capitalizeFirstLetter(location.pathname.slice(1)) === "Dashboard" ||  capitalizeFirstLetter(location.pathname.slice(1)) === "Projects"
+  const authPath = capitalizeFirstLetter(location.pathname.slice(1)) === "Dashboard" ||  capitalizeFirstLetter(location.pathname.slice(1)) === "Projects" || /^Project(\/\d+)?$/.test(capitalizeFirstLetter(location.pathname.slice(1)));
 
   return (
     <header className="header">

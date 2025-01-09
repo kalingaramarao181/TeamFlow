@@ -38,7 +38,8 @@
   border-collapse: collapse;
 }
 
-.users-table th, .users-table td {
+.users-table th,
+.users-table td {
   padding: 12px;
   text-align: left;
   border-bottom: 1px solid #ddd;
@@ -77,6 +78,7 @@
   font-size: 14px;
   cursor: not-allowed;
 }
+
 /* Optional Styles for the Edit User Popup */
 .edit-user-form {
   display: flex;
@@ -110,7 +112,10 @@
   margin-right: 10px;
 }
 
-.edit-user-btn {
+.edit-user-btn,
+.delete-user-btn,
+.conform-no-btn,
+.conform-yes-btn {
   background-color: #f39c12;
   padding: 8px;
   border-radius: 5px;
@@ -119,6 +124,12 @@
   color: white;
   border: none;
   margin-left: 10px;
+  cursor: pointer;
+  margin-bottom: 5px;
+}
+
+.delete-user-btn {
+  background-color: red;
 }
 
 .make-admin-btn {
@@ -129,4 +140,164 @@
 .inactive-btn {
   background-color: #bdc3c7;
   cursor: not-allowed;
+}
+
+.delete-confirmation h3 {
+  text-align: center;
+}
+
+.delete-confirmation span {
+  color: rgb(0, 68, 255);
+}
+
+.delete-confirmation div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.conform-no-btn {
+  background-color: #bbb9b9;
+}
+
+.conform-yes-btn {
+  background-color: rgb(143, 1, 1);
+}
+
+/* Responsive Design */
+
+/* Mobile Devices */
+@media (max-width: 768px) {
+  .users-page {
+    flex-direction: column;
+  }
+
+  .users-main-content {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .search-input {
+    width: 80%;
+  }
+
+  .users-table {
+    font-size: 12px;
+  }
+
+  .users-table th,
+  .users-table td {
+    padding: 8px;
+  }
+
+  .make-admin-btn,
+  .delete-user-btn,
+  .edit-user-btn {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .edit-user-form input {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .edit-user-form button {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .delete-confirmation h3 {
+    font-size: 14px;
+  }
+
+  .conform-no-btn,
+  .conform-yes-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+
+/* Tablet Devices */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .users-search {
+    margin-bottom: 20px;
+  }
+
+  .search-input {
+    width: 50%;
+  }
+
+  .users-table {
+    font-size: 14px;
+  }
+
+  .make-admin-btn,
+  .delete-user-btn,
+  .edit-user-btn {
+    padding: 7px 12px;
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+
+  .edit-user-form input {
+    padding: 9px;
+    font-size: 16px;
+  }
+
+  .edit-user-form button {
+    padding: 9px;
+    font-size: 16px;
+  }
+
+  .delete-confirmation h3 {
+    font-size: 16px;
+  }
+
+  .conform-no-btn,
+  .conform-yes-btn {
+    padding: 7px 14px;
+    font-size: 14px;
+  }
+}
+
+/* Desktop Devices */
+@media (min-width: 1025px) {
+  .users-search {
+    margin-bottom: 30px;
+  }
+
+  .search-input {
+    width: 30%;
+  }
+
+  .users-table {
+    font-size: 16px;
+  }
+
+  .make-admin-btn,
+  .delete-user-btn,
+  .edit-user-btn {
+    padding: 8px 15px;
+    font-size: 16px;
+  }
+
+  .edit-user-form input {
+    padding: 10px;
+    font-size: 18px;
+  }
+
+  .edit-user-form button {
+    padding: 10px;
+    font-size: 18px;
+  }
+
+  .delete-confirmation h3 {
+    font-size: 18px;
+  }
+
+  .conform-no-btn,
+  .conform-yes-btn {
+    padding: 8px 16px;
+    font-size: 16px;
+  }
 }

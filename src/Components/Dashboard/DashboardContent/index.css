@@ -47,6 +47,7 @@
 
 .card-header-content {
   padding: 10px 15px;
+  
 }
 
 .issue-title {
@@ -54,6 +55,7 @@
   font-weight: bold;
   color: #333;
   margin: 0;
+  text-align: left;
 }
 
 .issue-subtitle {
@@ -85,6 +87,25 @@
   text-decoration: none;
 }
 
+.project-filter input{
+  margin-left: 20px;
+  padding: 6px;
+}
+
+.project-filter-label{
+  margin-bottom: 12px;
+  margin-left: 20px;
+}
+
 .card-attachment a:hover {
   text-decoration: underline;
+}
+.issue-key{
+  cursor: pointer;
+}
+
+.filters-row{
+  display: flex;
+  flex-direction: row;
+  margin-right: 20px;
 }

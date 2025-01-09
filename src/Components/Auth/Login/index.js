@@ -58,10 +58,10 @@ const LoginForm = () => {
     if (!validateForm()) return;
 
     try {
-      const res = await axios.post(`${baseUrl}login`, loginDetails); // Login API call
+      const res = await axios.post(`${baseUrl}login`, loginDetails);
       Cookies.set("jwtToken", res.data.token, { expires: 30 });
       localStorage.setItem('senderData', JSON.stringify(res.data.user));
-      navigate('/projects', { replace: true });
+      navigate('/dashboard', { replace: true });
       window.location.reload();
     } catch (err) {
       console.error('Login Error:', err.response ? err.response.data : err.message);

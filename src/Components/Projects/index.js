@@ -6,6 +6,8 @@ import CreateProjectFormPopup from "../Popups/createPojectFormPopup";
 import axios from "axios";
 import { baseUrl, baseUrlImg } from "../config";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import {jwtDecode} from "jwt-decode";
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
@@ -23,17 +25,37 @@ const Projects = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await axios.get(`${baseUrl}/projects`);
-        if (response.data.success) {
-          setProjects(response.data.projects);
-          setFilteredProjects(response.data.projects);
+        // Retrieve token and decode it
+        const token = Cookies.get("jwtToken");
+        const decodedToken = token ? jwtDecode(token) : null;
+
+        if (decodedToken) {
+          const userId = decodedToken.id;
+          const role = decodedToken.role;
+
+          let response;
+
+          // Fetch projects based on role
+          if (role === "user") {
+            response = await axios.get(`${baseUrl}/user/${userId}/projects`);
+          } else {
+            response = await axios.get(`${baseUrl}/projects`);
+          }
+
+          if (response.data.success) {
+            setProjects(response.data.projects);
+            setFilteredProjects(response.data.projects);
+          } else {
+            console.error("Error fetching projects:", response.data.message);
+          }
         } else {
-          console.error("Error fetching projects:", response.data.message);
+          console.error("Invalid or missing token.");
         }
       } catch (error) {
         console.error("Error fetching projects:", error);
       }
     };
+
     fetchProjects();
   }, []);
 
@@ -61,20 +83,6 @@ const Projects = () => {
   const toggleDropdown = (projectId) => {
     setDropdownOpen((prev) => (prev === projectId ? null : projectId));
   };
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      // if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      //   setDropdownOpen(null); // Close the dropdown
-      // }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
 
   // Fetch user name for the lead of the project
   const getUserName = async (userId) => {
@@ -116,7 +124,7 @@ const Projects = () => {
           closePopup={() => setIsPopupOpen(false)}
           isPopupOpen={isPopupOpen}
         />
-
+          
         <CreateProjectFormPopup
           isPopupOpen={isPopupOpen}
           closePopup={() => setIsPopupOpen(false)}
@@ -181,9 +189,9 @@ const Projects = () => {
                   </span>
                   {dropdownOpen === project.id && (
                     <div className="dropdown-menu">
-                     <button onClick={() => handleViewDetails(project.id)}>
-                    View Project Details
-                  </button>
+                      <button onClick={() => handleViewDetails(project.id)}>
+                        View Project Details
+                      </button>
                       <button onClick={() => console.log("Update Project")}>
                         Update Project
                       </button>

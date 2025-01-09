@@ -3,26 +3,26 @@ import Cookies from "js-cookie";
 import { Navigate, Outlet } from "react-router-dom";
 import {jwtDecode} from "jwt-decode";
 
-const Secure = () => {
+const SecureUser = () => {
   const token = Cookies.get("jwtToken");
 
   if (token) {
     try {
       const decodedToken = jwtDecode(token);
-      const currentTime = Date.now() / 1000; // in seconds
+      const currentTime = Date.now() / 1000; // Current time in seconds
 
-      // Check if token is expired
+      // Check if the token is expired
       if (decodedToken.exp < currentTime) {
         alert("Session expired. Please log in again.");
-        Cookies.remove("jwtToken"); 
+        Cookies.remove("jwtToken"); // Remove the expired token
         return <Navigate to="/" replace />;
       }
 
-      // Check if the user's role is 'admin'
-      if (decodedToken.role === "admin" || decodedToken.role === "moderator" || decodedToken.role === "user") {
+      // Check if the user's role is 'user'
+      if (decodedToken.role === "user") {
         return <Outlet />; // Allow access to protected routes
       } else {
-        alert("Access denied. Only admins are allowed.");
+        alert("Access denied. Only users are allowed.");
         return <Navigate to="/" replace />;
       }
     } catch (error) {
@@ -36,4 +36,4 @@ const Secure = () => {
   return <Navigate to="/" replace />;
 };
 
-export default Secure;
+export default SecureUser;

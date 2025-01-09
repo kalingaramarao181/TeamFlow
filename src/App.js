@@ -9,6 +9,7 @@ import AuthPage from "./Components/Auth";
 import ProjectDetails from "./Components/ProjectDetails";
 import Secure from "./Components/Secure";
 import Users from "./Components/Settings";
+import IssueDetails from "./Components/IssueDetails";
 
 function App() {
   return (
@@ -19,13 +20,14 @@ function App() {
         <Route path="/tasks" element={<TasksPage />} />
         <Route path="/timesheets" element={<TimesheetsPage />} />
         <Route path="/reports" element={<ReportsPage />} />
-        <Route path="/project/:projectId" element={<ProjectDetails />} />
-        {/* Secure Routes */}
         <Route element={<Secure />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/settings" element={<Users />} />
+          <Route path="/project/:projectId" element={<ProjectDetails />} />
+          <Route path="/issues/:issueId" element={<IssueDetails />} />
         </Route>
+        {/* Secure Routes */}
       </Routes>
     </BrowserRouter>
   );

@@ -195,3 +195,22 @@
   color: #333;
 }
 
+.project-members-header{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.project-members-header h2{
+  font-size: 22px;
+  margin-bottom: 15px;
+  color: #2c3e50;
+}
+
+.project-members-header input{
+  padding: 8px;
+  margin-right: 5px;
+
+}
+

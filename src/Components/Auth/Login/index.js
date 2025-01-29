@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 import { baseUrl } from "../../config";
 import { useNavigate } from 'react-router-dom';
 
-const LoginForm = () => {
+const LoginForm = ({handleTabClick}) => {
   const [loginDetails, setLoginDetails] = useState({
     email: "",
     password: "",
@@ -95,6 +95,7 @@ const LoginForm = () => {
         <button type="submit" className="auth-btn">
           Login
         </button>
+        <p className="auth-forgot-password" onClick={() => handleTabClick("forgot-form")}>Forgot password?</p>
 
         {/* Display server-side error message */}
         {errorMessage && <p className="auth-error server-error">{errorMessage}</p>}

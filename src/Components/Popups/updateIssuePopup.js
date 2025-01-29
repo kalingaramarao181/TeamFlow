@@ -1,28 +1,29 @@
 import React, { useState, useEffect } from "react";
 import Popup from "reactjs-popup";
 import { Editor } from "react-draft-wysiwyg";
-import { EditorState, convertToRaw } from "draft-js";
+import { EditorState, convertToRaw, ContentState } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import draftToHtml from "draftjs-to-html";
+import htmlToDraft from "html-to-draftjs";
 import { baseUrl } from "../config.js";
-import {jwtDecode} from 'jwt-decode';
-import Cookies from 'js-cookie';
-import "./index.css";
+import Cookies from "js-cookie";
 import axios from "axios";
+import "./index.css";
 
-const CreateFormPopup = ({ isPopupOpen, closePopup, options }) => {
+const EditIssuePopup = ({ isPopupOpen, closePopup, options, issue }) => {
+
   const [formData, setFormData] = useState({
     project: "",
-    issueType: "",
-    status: "To Do",
+    issue_type: "",
+    status: "",
     summary: "",
     description: "",
-    priority: "Medium",
+    priority: "",
     team: "",
     labels: "",
     sprint: "",
-    linkedIssueType: "blocks",
-    linkedIssue: "",
+    linkedIssueType: "",
+    linked_issue: "",
     assignee: "",
     attachment: null,
   });
@@ -31,46 +32,28 @@ const CreateFormPopup = ({ isPopupOpen, closePopup, options }) => {
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
   const [errorMessageVisible, setErrorMessageVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
-  const [loggedInUser, setLoggedInUser] = useState(null);
   const [users, setUsers] = useState([]);
-  const [userRole, setUserRole] = useState(null); // To store user's role
-
-  
-  const onEditorStateChange = (state) => {
-    setEditorState(state);
-
-    try {
-      const contentState = state.getCurrentContent();
-
-      if (contentState.hasText()) {
-        // Convert content to raw and HTML
-        const rawHtml = draftToHtml(convertToRaw(contentState));
-        setFormData((prev) => ({ ...prev, description: rawHtml })); // Store HTML for rendering
-      } else {
-        setFormData((prev) => ({ ...prev, description: "" })); // Clear description if empty
-      }
-    } catch (error) {
-      console.error("Failed to process editor content:", error);
-    }
-  };
+  const loggedInUser = { id: 1, full_name: "John Doe" };
+  const userRole = "admin";
 
   useEffect(() => {
-    // Fetch logged-in user data from the JWT token stored in cookies
-    const fetchUserData = async () => {
-      try {
-        const token = Cookies.get("jwtToken"); // Get token from cookies
-        if (token) {
-          const decodedToken = jwtDecode(token); // Decode the JWT token
-          setLoggedInUser(decodedToken); // Store the user info
-          setUserRole(decodedToken.role); // Get the role from the decoded token
-        }
-      } catch (error) {
-        console.error("Error decoding the token:", error);
-      }
-    };
-  
-    // Fetch users data
+    if (issue) {
+      const { description } = issue;
+      const contentBlock = htmlToDraft(description || "");
+      const contentState = ContentState.createFromBlockArray(
+        contentBlock.contentBlocks
+      );
+      const editorState = EditorState.createWithContent(contentState);
+
+      setEditorState(editorState);
+      setFormData({
+        ...issue,
+        attachment: null,
+      });
+    }
+  }, [issue]);
+
+  useEffect(() => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(`${baseUrl}get-users`);
@@ -79,10 +62,20 @@ const CreateFormPopup = ({ isPopupOpen, closePopup, options }) => {
         console.error("Error fetching users:", error);
       }
     };
-  
-    fetchUserData();
     fetchUsers();
   }, []);
+
+  const onEditorStateChange = (state) => {
+    setEditorState(state);
+
+    const contentState = state.getCurrentContent();
+    if (contentState.hasText()) {
+      const rawHtml = draftToHtml(convertToRaw(contentState));
+      setFormData((prev) => ({ ...prev, description: rawHtml }));
+    } else {
+      setFormData((prev) => ({ ...prev, description: "" }));
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -97,99 +90,38 @@ const CreateFormPopup = ({ isPopupOpen, closePopup, options }) => {
     if (!formData.summary.trim()) {
       setErrorMessage("Summary is required!");
       setErrorMessageVisible(true);
-      setTimeout(() => {
-        setErrorMessageVisible(false);
-      }, 5000);
+      setTimeout(() => setErrorMessageVisible(false), 5000);
       return;
     }
-
-    const assignee = users.find(
-      (user) => user.id === parseInt(formData.assignee)
-    );
-
-    if (!assignee) {
-      setErrorMessage("Valid assignee is required!");
-      setErrorMessageVisible(true);
-      setTimeout(() => {
-        setErrorMessageVisible(false);
-      }, 5000);
-      return;
-    }
-
-    const emailPayload = {
-      assigneeEmail: assignee.email,
-      assigneeName: assignee.full_name,
-      projectId: assignee.id,
-      issueDetails: {
-        summary: formData.summary,
-        description: formData.description,
-        status: formData.status,
-        // Add other necessary issue details here
-      },
-    };
 
     try {
-      // First, send the email to the assignee
-      const emailResponse = await axios.post(
-        `${baseUrl}send-mail`,
-        emailPayload
-      );
-      if (emailResponse.data.success) {
-        // If email was sent successfully, create the issue
-        const payload = new FormData();
-        for (let key in formData) {
-          payload.append(key, formData[key]);
-        }
-
-        await axios.post(`${baseUrl}issues`, payload, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-
-        setSuccessMessageVisible(true);
-        setTimeout(() => {
-          setSuccessMessageVisible(false);
-          setFormData({
-            project: "",
-            issueType: "",
-            status: "To Do",
-            summary: "",
-            description: "",
-            priority: "Medium",
-            team: "",
-            labels: "",
-            sprint: "",
-            linkedIssueType: "blocks",
-            linkedIssue: "",
-            assignee: "",
-            attachment: null,
-          });
-          setEditorState(EditorState.createEmpty());
-          closePopup(); // Close the popup after success
-        }, 3000);
-      } else {
-        throw new Error("Failed to send email. Issue creation aborted.");
+      const payload = new FormData();
+      for (let key in formData) {
+        payload.append(key, formData[key]);
       }
+
+      // Send the PUT request to update the issue
+      await axios.put(`${baseUrl}issues/${issue.id}`, payload, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      setSuccessMessageVisible(true);
+      setTimeout(() => {
+        setSuccessMessageVisible(false);
+        closePopup();
+        window.location.reload();
+      }, 3000);
+                      
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error updating issue:", error);
 
       const errorResponse = error.response
         ? error.response.data
         : "An error occurred. Please try again.";
       setErrorMessage(errorResponse.message || errorResponse);
-
       setErrorMessageVisible(true);
-
-      setTimeout(() => {
-        setErrorMessageVisible(false);
-      }, 5000);
+      setTimeout(() => setErrorMessageVisible(false), 5000);
     }
-  };
-
-  const handleAssigneeChange = (e) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      assignee: e.target.value, // Update the assignee with selected user
-    }));
   };
 
   return (
@@ -202,12 +134,10 @@ const CreateFormPopup = ({ isPopupOpen, closePopup, options }) => {
       overlayStyle={{ zIndex: 1, backgroundColor: "rgba(0, 0, 0, 0.6)" }}
     >
       <div className="popup-contents">
-        <h2>Create Issue</h2>
+        <h2>Update Issue</h2>
         <form>
           {/* Project */}
-          <label htmlFor="project">
-            Project <span className="required">*</span>
-          </label>
+          <label htmlFor="project">Project *</label>
           <select
             id="project"
             name="project"
@@ -223,13 +153,11 @@ const CreateFormPopup = ({ isPopupOpen, closePopup, options }) => {
           </select>
 
           {/* Issue Type */}
-          <label htmlFor="issueType">
-            Issue Type <span className="required">*</span>
-          </label>
+          <label htmlFor="issueType">Issue Type *</label>
           <select
             id="issueType"
-            name="issueType"
-            value={formData.issueType}
+            name="issue_type"
+            value={formData.issue_type}
             onChange={handleChange}
           >
             <option value="">Select Issue Type</option>
@@ -254,9 +182,7 @@ const CreateFormPopup = ({ isPopupOpen, closePopup, options }) => {
           </select>
 
           {/* Summary */}
-          <label htmlFor="summary">
-            Summary <span className="required">*</span>
-          </label>
+          <label htmlFor="summary">Summary *</label>
           <input
             type="text"
             id="summary"
@@ -301,14 +227,16 @@ const CreateFormPopup = ({ isPopupOpen, closePopup, options }) => {
             value={formData.team}
             onChange={handleChange}
           >
+            <option value="">Select Team</option>
             <option value="H1B Team">H1B Team</option>
             <option value="DBM Team">DBM Team</option>
             <option value="Web Team">Web Team</option>
           </select>
 
-          {/* Linked Issues */}
-          <label>Linked Issues Type</label>
+          {/* Linked Issues type */}
+          <label htmlFor="linkedIssueType">Linked Issues Type</label>
           <select
+            id="linkedIssueType"
             name="linkedIssueType"
             value={formData.linkedIssueType}
             onChange={handleChange}
@@ -317,12 +245,15 @@ const CreateFormPopup = ({ isPopupOpen, closePopup, options }) => {
             <option value="is blocked by">Is Blocked By</option>
             <option value="relates to">Relates To</option>
           </select>
-          <label>Linked Issues</label>
+          {/* Linked Issues type */}
+          <label htmlFor="linkedIssue">Linked Issue</label>
           <select
-            name="linkedIssue"
-            value={formData.linkedIssue}
+            id="linkedIssue"
+            name="linked_issue"
+            value={formData.linked_issue}
             onChange={handleChange}
           >
+            <option value="">Select Issue</option>
             <option value="">Select Issue</option>
             <option value="Issue-1">Issue 1</option>
             <option value="Issue-2">Issue 2</option>
@@ -333,49 +264,24 @@ const CreateFormPopup = ({ isPopupOpen, closePopup, options }) => {
           <select
             id="assignee"
             name="assignee"
-            value={formData.assignee}
-            onChange={handleAssigneeChange}
+            value={formData.assignee} 
+            onChange={handleChange}
           >
-            <option value="">Select Assignee</option>
-            {userRole === "user" ? (
-              <option key={loggedInUser.id} value={loggedInUser.id}>
-                {loggedInUser.full_name}
+            <option value="">
+              {users.find((user) => user.id === parseInt(formData.assignee))
+                ?.full_name || "Select an assignee"}
+            </option>
+            {/* if we want to add in feature */}
+            {/* {users.map((user) => (
+              <option key={user.id} value={user.id}>
+                {user.full_name}
               </option>
-            ) : (
-              users.map((user) => (
-                <option key={user.id} value={user.id}>
-                  {user.full_name}
-                </option>
-              ))
-            )}
+            ))} */}
           </select>
 
-          {loggedInUser && !formData.assignee && (
-            <button
-              onClick={() =>
-                setFormData({ ...formData, assignee: loggedInUser.id })
-              }
-            >
-              Assign to me
-            </button>
-          )}
-
           {/* Attachment */}
-          <div className="attachment-wrapper">
-            <label>Attachment</label>
-            <div className="attachment-box">
-              <p>
-                📁 Drop files to attach or{" "}
-                <span className="browse">Browse</span>
-              </p>
-              <input
-                type="file"
-                id="fileInput"
-                className="file-input"
-                onChange={handleFileChange}
-              />
-            </div>
-          </div>
+          <label htmlFor="attachment">Attachment</label>
+          <input type="file" id="attachment" onChange={handleFileChange} />
 
           {/* Actions */}
           <div className="popup-actions">
@@ -383,21 +289,21 @@ const CreateFormPopup = ({ isPopupOpen, closePopup, options }) => {
               Cancel
             </button>
             <button className="create-btn" onClick={handleSubmit} type="button">
-              Create
+              Update
             </button>
           </div>
         </form>
+
+        {/* Success and Error Messages */}
         {successMessageVisible && (
-          <div className="success-message">
-            🎉 Issue Created Successfully! 💥
-          </div>
+          <div className="success-message">🎉 Issue Updated Successfully!</div>
         )}
         {errorMessageVisible && (
-          <div className="error-message">❌ {errorMessage} 🚨</div>
+          <div className="error-message">❌ {errorMessage}</div>
         )}
       </div>
     </Popup>
   );
 };
 
-export default CreateFormPopup;
+export default EditIssuePopup;

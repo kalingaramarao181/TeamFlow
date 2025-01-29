@@ -57,8 +57,8 @@ const CreateProjectFormPopup = ({ isPopupOpen, closePopup, options }) => {
   
         setFormData((prev) => ({
           ...prev,
-          description: rawHtml, // Store HTML format in description
-          rawDescription: rawContent, // Optionally store raw JSON for debugging or future use
+          description: rawHtml,
+          rawDescription: rawContent,
         }));
       } else {
         setFormData((prev) => ({ ...prev, description: "", rawDescription: "" }));

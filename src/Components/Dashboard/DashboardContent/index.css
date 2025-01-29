@@ -104,6 +104,10 @@
   cursor: pointer;
 }
 
+.issue-key:hover{
+  color: #049980;
+}
+
 .filters-row{
   display: flex;
   flex-direction: row;

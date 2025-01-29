@@ -25,6 +25,13 @@ body {
   animation: scaleUp 0.5s ease-in-out;
 }
 
+.auth-forgot-password{
+  text-align: right;
+  margin-bottom: 1rem;
+  color: #4e54c8; 
+  cursor: pointer;
+}
+
 /* Animation for scaling up the auth box */
 @keyframes scaleUp {
   0% {
@@ -41,7 +48,7 @@ body {
 .auth-input {
   padding: 0.8rem;
   margin: 0.5rem 0;
-  width: 100%;
+  width: 95%;
   border: 1px solid #e0e0e0;
   border-radius: 4px;
   font-size: 0.9rem;
@@ -59,6 +66,12 @@ body {
   box-shadow: 0 0 5px rgba(78, 84, 200, 0.5);
 }
 
+.otp-input:focus {
+  border-color: #4e54c8;
+  outline: none;
+  box-shadow: 0 0 5px rgba(78, 84, 200, 0.5);
+}
+
 /* Error Messages */
 .auth-error {
   color: red;
@@ -67,6 +80,28 @@ body {
   margin-bottom: 10px;
   text-align: right;
 }
+
+.otp-container{
+  align-self: center;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-left: auto;
+}
+.otp-input{
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  font-size: 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: #333;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
 
 /* Button Styles */
 .auth-btn {

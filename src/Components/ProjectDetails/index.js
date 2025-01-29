@@ -13,10 +13,10 @@ const ProjectDetails = () => {
   const { projectId } = useParams();
   const [project, setProject] = useState(null);
   const [members, setMembers] = useState([]);
-  const [issues, setIssues] = useState([]); // State for issues
-  const [filteredIssues, setFilteredIssues] = useState([]); // State for filtered issues
-  const [searchByKey, setSearchByKey] = useState(""); // State for key search
-  const [searchByName, setSearchByName] = useState(""); // State for name search
+  const [issues, setIssues] = useState([]);
+  const [filteredIssues, setFilteredIssues] = useState([]);
+  const [searchByKey, setSearchByKey] = useState("");
+  const [searchByName, setSearchByName] = useState("");
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [options, setOptions] = useState({
@@ -99,6 +99,10 @@ const ProjectDetails = () => {
 
   const toggleSidebar = () => setIsCollapsed(!isCollapsed);
   const togglePopup = () => setIsPopupOpen(!isPopupOpen);
+
+  const handleCardClick = (issueId) => {
+    navigate(`/issues/${issueId}`);
+  };
 
   // Filter issues based on search input
   useEffect(() => {
@@ -224,7 +228,9 @@ const ProjectDetails = () => {
                       <tr key={issue.id}>
                         <td>{issue.id}</td>
                         <td>
-                          {project.projectKey}-{index + 1}
+                        <p className="issue-key" onClick={() => handleCardClick(issue.id)}>
+                          {project.projectKey}-{issue.id}
+                          </p>
                         </td>
                         <td>{issue.summary}</td>
                         <td>{issue.issue_type}</td>

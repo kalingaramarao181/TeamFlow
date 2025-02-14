@@ -1,0 +1,10 @@
+.teams-header{
+    display: flex;
+    justify-content: space-between;
+    margin-top: auto;
+    align-items: center;
+}
+
+.team-member-name{
+    margin-top: 10px;
+}

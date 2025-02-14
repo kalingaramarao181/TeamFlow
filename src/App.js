@@ -10,6 +10,7 @@ import ProjectDetails from "./Components/ProjectDetails";
 import Secure from "./Components/Secure";
 import Users from "./Components/Settings";
 import IssueDetails from "./Components/IssueDetails";
+import Teams from "./Components/Teams";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/settings" element={<Users />} />
           <Route path="/project/:projectId" element={<ProjectDetails />} />
           <Route path="/issues/:issueId" element={<IssueDetails />} />
+          <Route path="/teams" element={<Teams />} />
         </Route>
         {/* Secure Routes */}
       </Routes>

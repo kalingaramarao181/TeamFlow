@@ -11,11 +11,11 @@ import {jwtDecode} from "jwt-decode";
 
 const Users = () => {
   const token = Cookies.get("jwtToken");
-  let userRole = "user"; // Default role
+  let userRole = "user"; 
 
   if (token) {
     const decodedToken = jwtDecode(token);
-    userRole = decodedToken.role; // Extract the role from the decoded token
+    userRole = decodedToken.role; 
   }
 
   const [users, setUsers] = useState([]);
@@ -30,22 +30,20 @@ const Users = () => {
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
 
-  // Fetch users on component mount
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(`${baseUrl}get-users`);
-        setUsers(response.data);
-        setFilteredUsers(response.data);
+        setUsers(response.data.filter((user) => user.role !== "moderator"));
+        setFilteredUsers(response.data.filter((user) => user.role !== "moderator"));
       } catch (error) {
         console.error("Error fetching users:", error);
       }
     };
-
+  
     fetchUsers();
   }, []);
 
-  // Search functionality
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
     const filteredData = users.filter((user) =>
@@ -54,10 +52,8 @@ const Users = () => {
     setFilteredUsers(filteredData);
   };
 
-  // Toggle sidebar collapse
   const toggleSidebar = () => setIsCollapsed(!isCollapsed);
 
-  // Update user role to admin
   const makeAdmin = async (userId) => {
     try {
       const response = await axios.patch(`${baseUrl}users/${userId}/role`, {

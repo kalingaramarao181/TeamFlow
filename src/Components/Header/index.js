@@ -38,13 +38,11 @@ const Header = ({ openPopup, closePopup, isPopupOpen }) => {
     }
   }, []);
 
-  // Handle logout
   const handleLogout = () => {
-    Cookies.remove("jwtToken"); // Remove JWT token from cookies
-    navigate("/"); // Redirect to home
+    Cookies.remove("jwtToken");
+    navigate("/");
   };
 
-  // Toggle the popup when clicking the Create button
   const handleCreateButtonClick = () => {
     if (isPopupOpen) {
       closePopup();
@@ -104,7 +102,7 @@ const Header = ({ openPopup, closePopup, isPopupOpen }) => {
               <li>Profile</li>
               <li>Personal Settings</li>
               <li>Notifications</li>
-              <li onClick={handleLogout}>Logout</li> {/* Logout Action */}
+              <li onClick={handleLogout}>Logout</li>
             </ul>
           </div>
         )}

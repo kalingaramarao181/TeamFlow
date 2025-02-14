@@ -18,6 +18,13 @@
   max-height: 80vh;
 }
 
+.remove-member{
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  margin-left: 14px;
+}
+
 .required {
   color: red;
   margin-left: 4px;

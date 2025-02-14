@@ -34,6 +34,7 @@ const CreateFormPopup = ({ isPopupOpen, closePopup, options }) => {
 
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [users, setUsers] = useState([]);
+  const [teams, setTeams] = useState([]); // State to hold the list of teams
   const [userRole, setUserRole] = useState(null); // To store user's role
 
   
@@ -70,18 +71,22 @@ const CreateFormPopup = ({ isPopupOpen, closePopup, options }) => {
       }
     };
   
-    // Fetch users data
-    const fetchUsers = async () => {
+    // Fetch users and teams data
+    const fetchData = async () => {
       try {
-        const response = await axios.get(`${baseUrl}get-users`);
-        setUsers(response.data);
+        const [usersRes, teamsRes] = await Promise.all([
+          axios.get(`${baseUrl}get-users`),
+          axios.get(`${baseUrl}teams`),
+        ]);
+        setUsers(usersRes.data);
+        setTeams(teamsRes.data.teams);
       } catch (error) {
-        console.error("Error fetching users:", error);
+        console.error("Error fetching data:", error);
       }
     };
   
     fetchUserData();
-    fetchUsers();
+    fetchData();
   }, []);
 
   const handleChange = (e) => {
@@ -301,9 +306,12 @@ const CreateFormPopup = ({ isPopupOpen, closePopup, options }) => {
             value={formData.team}
             onChange={handleChange}
           >
-            <option value="H1B Team">H1B Team</option>
-            <option value="DBM Team">DBM Team</option>
-            <option value="Web Team">Web Team</option>
+            <option value="">Select Team</option>
+            {teams.map((team) => (
+              <option key={team.id} value={team.id}>
+                {team.team_name}
+              </option>
+            ))}
           </select>
 
           {/* Linked Issues */}

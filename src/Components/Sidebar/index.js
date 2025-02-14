@@ -79,10 +79,10 @@ const Sidebar = ({ onToggleSidebar, isCollapsed }) => {
               </li>
               <li
                 className={`sidebar-menu-item ${
-                  location.pathname === "/timesheets" ? "active" : ""
+                  location.pathname === "/teams" ? "active" : ""
                 }`}
               >
-                <Link className="sidebar-menu-link" to="/timesheets">
+                <Link className="sidebar-menu-link" to="/teams">
                   <FaRegCalendarAlt className="sidebar-icon" />
                   <span className="sidebar-label">Teams</span>
                 </Link>
